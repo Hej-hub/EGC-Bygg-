@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGC Bygg & Underhåll AB</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #0a0e1a;
+    --navy-mid:   #111827;
+    --navy-light: #1c2840;
+    --steel:      #2d3f5e;
+    --blue-acc:   #2563eb;
+    --blue-light: #3b82f6;
+    --blue-pale:  #93c5fd;
+    --slate:      #94a3b8;
+    --silver:     #cbd5e1;
+    --white:      #f8fafc;
+    --offwhite:   #e2e8f0;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--silver);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Subtle texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' fill='rgba(255,255,255,0.015)'/%3E%3C/svg%3E");
+    background-size: 4px 4px;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ══ NAV ══ */
+  nav {
+    position: fixed; top: 0; width: 100%;
+    padding: 2rem 6rem;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 200;
+    transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  nav.solid {
+    background: rgba(10,14,26,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(37,99,235,0.15);
+    padding: 1.2rem 6rem;
+  }
+
+  .logo {
+    display: flex; flex-direction: column; gap: 1px;
+  }
+
+  .logo-main {
+    font-size: 1.5rem; font-weight: 800;
+    letter-spacing: 3px; color: var(--white);
+    line-height: 1;
+  }
+
+  .logo-main span { color: var(--blue-light); }
+
+  .logo-sub {
+    font-family: 'Lora', serif;
+    font-size: 0.6rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--slate);
+    font-weight: 400;
+  }
+
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none; align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--slate); text-decoration: none;
+    font-size: 0.75rem; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: ''; position: absolute;
+    bottom: -4px; left: 0; width: 0; height: 1px;
+    background: var(--blue-light);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-btn {
+    background: var(--blue-acc);
+    color: var(--white) !important;
+    padding: 0.7rem 1.8rem;
+    transition: background 0.3s, transform 0.2s !important;
+  }
+
+  .nav-btn::after { display: none !important; }
+  .nav-btn:hover { background: var(--blue-light) !important; transform: translateY(-1px); }
+
+  /* ══ HERO ══ */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 6rem;
+    position: relative;
+    overflow: hidden;
+    gap: 4rem;
+  }
+
+  /* Animated background grid */
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    animation: gridPulse 8s ease-in-out infinite;
+  }
+
+  @keyframes gridPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .hero-glow-1 {
+    position: absolute;
+    top: -20%; left: -10%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 65%);
+    pointer-events: none;
+    animation: glowMove 10s ease-in-out infinite;
+  }
+
+  .hero-glow-2 {
+    position: absolute;
+    bottom: -20%; right: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 65%);
+    pointer-events: none;
+    animation: glowMove 12s ease-in-out infinite reverse;
+  }
+
+  @keyframes glowMove {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -20px); }
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    background: rgba(37,99,235,0.1);
+    border: 1px solid rgba(37,99,235,0.25);
+    padding: 0.5rem 1.2rem;
+    font-size: 0.65rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--blue-pale);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--blue-light);
+    border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 5.5vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-title .line-white { display: block; color: var(--white); }
+  .hero-title .line-blue  { display: block; color: var(--blue-light); }
+  .hero-title .line-ghost {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(148,163,184,0.3);
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.65em;
+    letter-spacing: 2px;
+  }
+
+  .hero-desc {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--slate);
+    font-weight: 400;
+    max-width: 460px;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1.2rem; align-items: center;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .cta-primary {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    background: var(--blue-acc);
+    color: var(--white); text-decoration: none;
+    padding: 1rem 2.5rem;
+    font-size: 0.78rem; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 700;
+    transition: all 0.3s;
+  }
+
+  .cta-primary:hover {
+    background: var(--blue-light);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 50px rgba(37,99,235,0.35);
+  }
+
+  .cta-primary svg { transition: transform 0.3s; }
+  .cta-primary:hover svg { transform: translateX(4px); }
+
+  .cta-secondary {
+    color: var(--silver); text-decoration: none;
+    font-size: 0.78rem; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 500;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.3s;
+  }
+
+  .cta-secondary:hover { color: var(--white); }
+
+  /* Hero right — stats block */
+  .hero-right {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(37,99,235,0.1);
+    border: 1px solid rgba(37,99,235,0.15);
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+
+  .hero-stat {
+    background: var(--navy-mid);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .hero-stat:hover { background: var(--navy-light); }
+
+  .hero-stat::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--blue-acc);
+    transition: height 0.4s;
+  }
+
+  .hero-stat:hover::before { height: 100%; }
+
+  .stat-number {
+    font-size: 3rem; font-weight: 800;
+    color: var(--white); line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-number span { color: var(--blue-light); }
+
+  .stat-desc {
+    font-family: 'Lora', serif;
+    font-size: 0.82rem; color: var(--slate);
+    line-height: 1.5; font-style: italic;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══ DIVIDER ══ */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(37,99,235,0.3), transparent);
+    position: relative; z-index: 2;
+  }
+
+  /* ══ SERVICES ══ */
+  .section { padding: 7rem 6rem; position: relative; z-index: 2; }
+
+  .section-header {
+    max-width: 1200px; margin: 0 auto 5rem;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+
+  .eyebrow {
+    font-size: 0.65rem; letter-spacing: 5px;
+    text-transform: uppercase; color: var(--blue-light);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .eyebrow::before {
+    content: ''; width: 24px; height: 1px;
+    background: var(--blue-acc);
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800; color: var(--white);
+    line-height: 1.1; letter-spacing: -0.5px;
+  }
+
+  .section-title em {
+    font-family: 'Lora', serif;
+    font-style: italic; font-weight: 400;
+    color: var(--blue-pale);
+  }
+
+  .section-link {
+    color: var(--slate); text-decoration: none;
+    font-size: 0.75rem; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 600;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.3s; white-space: nowrap;
+  }
+
+  .section-link:hover { color: var(--blue-light); }
+
+  /* Services grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    max-width: 1200px; margin: 0 auto;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .svc-card {
+    background: var(--navy-mid);
+    padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+    cursor: default;
+  }
+
+  .svc-card:hover { background: var(--navy-light); }
+
+  .svc-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--blue-acc), var(--blue-light));
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .svc-card:hover::after { width: 100%; }
+
+  .svc-num {
+    font-size: 4.5rem; font-weight: 800;
+    color: rgba(37,99,235,0.07);
+    line-height: 1; margin-bottom: 1.5rem;
+    transition: color 0.3s;
+  }
+
+  .svc-card:hover .svc-num { color: rgba(37,99,235,0.15); }
+
+  .svc-icon {
+    font-size: 2rem; margin-bottom: 1rem; display: block;
+  }
+
+  .svc-name {
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--white); margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .svc-desc {
+    font-family: 'Lora', serif;
+    font-size: 0.88rem; color: var(--slate);
+    line-height: 1.8; font-weight: 400;
+  }
+
+  /* ══ WHY US ══ */
+  .why-section { background: var(--navy-mid); }
+
+  .why-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 7rem; align-items: center;
+  }
+
+  .why-visual {
+    position: relative;
+  }
+
+  .why-box {
+    background: linear-gradient(135deg, var(--navy-light), var(--steel));
+    border: 1px solid rgba(37,99,235,0.2);
+    height: 480px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 7rem;
+    position: relative; overflow: hidden;
+  }
+
+  .why-box::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 60%, rgba(37,99,235,0.08));
+  }
+
+  .why-box::after {
+    content: '';
+    position: absolute; bottom: -2px; right: -2px;
+    border-bottom: 3px solid var(--blue-acc);
+    border-right: 3px solid var(--blue-acc);
+    width: 40px; height: 40px;
+  }
+
+  .why-corner-tl {
+    position: absolute; top: -2px; left: -2px;
+    border-top: 3px solid var(--blue-acc);
+    border-left: 3px solid var(--blue-acc);
+    width: 40px; height: 40px;
+  }
+
+  .years-badge {
+    position: absolute; bottom: -25px; right: -25px;
+    background: var(--blue-acc);
+    width: 110px; height: 110px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+
+  .years-num {
+    font-size: 2.5rem; font-weight: 800;
+    color: var(--white); line-height: 1;
+  }
+
+  .years-label {
+    font-size: 0.55rem; letter-spacing: 3px;
+    text-transform: uppercase; color: rgba(255,255,255,0.7);
+  }
+
+  .why-list {
+    display: flex; flex-direction: column; gap: 0;
+    margin-top: 3rem;
+  }
+
+  .why-item {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: padding-left 0.3s;
+    cursor: default;
+  }
+
+  .why-item:first-child { padding-top: 0; }
+  .why-item:last-child { border-bottom: none; }
+  .why-item:hover { padding-left: 0.5rem; }
+
+  .why-icon-wrap {
+    width: 44px; height: 44px;
+    background: rgba(37,99,235,0.1);
+    border: 1px solid rgba(37,99,235,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .why-item:hover .why-icon-wrap {
+    background: rgba(37,99,235,0.2);
+  }
+
+  .why-item-title {
+    font-size: 0.95rem; font-weight: 700;
+    color: var(--white); margin-bottom: 0.3rem;
+  }
+
+  .why-item-desc {
+    font-family: 'Lora', serif;
+    font-size: 0.84rem; color: var(--slate);
+    line-height: 1.7;
+  }
+
+  /* ══ PROJECTS ══ */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    grid-template-rows: 280px 280px;
+    gap: 3px;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .proj-card {
+    background: var(--navy-light);
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+    padding: 2rem;
+    transition: transform 0.4s;
+    cursor: pointer;
+  }
+
+  .proj-card:first-child { grid-row: 1 / 3; }
+
+  .proj-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem; opacity: 0.06;
+    transition: transform 0.6s, opacity 0.4s;
+  }
+
+  .proj-card:hover .proj-bg { transform: scale(1.1); opacity: 0.1; }
+
+  .proj-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,14,26,0.85) 0%, transparent 60%);
+  }
+
+  .proj-content { position: relative; z-index: 2; }
+
+  .proj-tag {
+    font-size: 0.62rem; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--blue-pale);
+    margin-bottom: 0.4rem;
+  }
+
+  .proj-name {
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--white);
+  }
+
+  /* ══ CONTACT ══ */
+  .contact-section { background: var(--navy-mid); }
+
+  .contact-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1.3fr;
+    gap: 7rem; align-items: start;
+  }
+
+  .contact-info-block { margin-top: 3rem; }
+
+  .c-item {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .c-item:last-child { border-bottom: none; }
+
+  .c-icon-box {
+    width: 42px; height: 42px;
+    border: 1px solid rgba(37,99,235,0.25);
+    background: rgba(37,99,235,0.07);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+
+  .c-label {
+    font-size: 0.6rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--blue-light);
+    margin-bottom: 0.35rem;
+  }
+
+  .c-value {
+    font-family: 'Lora', serif;
+    font-size: 0.95rem; color: var(--silver);
+    line-height: 1.6;
+  }
+
+  /* Form */
+  .form-title {
+    font-family: 'Lora', serif;
+    font-size: 1.6rem; font-style: italic;
+    color: var(--white); margin-bottom: 2rem; font-weight: 400;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+  .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .f-grp { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .f-grp label {
+    font-size: 0.6rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--slate);
+  }
+
+  .f-grp input,
+  .f-grp select,
+  .f-grp textarea {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-bottom-color: rgba(37,99,235,0.3);
+    color: var(--white);
+    padding: 0.95rem 1rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.88rem; font-weight: 400;
+    outline: none; resize: none;
+    transition: border-color 0.3s, background 0.3s;
+    -webkit-appearance: none;
+  }
+
+  .f-grp input:focus,
+  .f-grp select:focus,
+  .f-grp textarea:focus {
+    border-color: rgba(37,99,235,0.6);
+    background: rgba(37,99,235,0.04);
+  }
+
+  .f-grp input::placeholder,
+  .f-grp textarea::placeholder { color: rgba(148,163,184,0.3); }
+
+  .f-grp select option { background: var(--navy-mid); }
+
+  .f-submit {
+    align-self: flex-start;
+    background: var(--blue-acc);
+    color: var(--white); border: none;
+    padding: 1rem 3rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem; letter-spacing: 3px;
+    text-transform: uppercase; font-weight: 700;
+    cursor: pointer; transition: all 0.3s;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+
+  .f-submit:hover {
+    background: var(--blue-light);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(37,99,235,0.35);
+  }
+
+  /* ══ FOOTER ══ */
+  footer {
+    background: #060a12;
+    border-top: 1px solid rgba(37,99,235,0.12);
+    padding: 4rem 6rem 2.5rem;
+    position: relative; z-index: 2;
+  }
+
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem; padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 2rem;
+  }
+
+  .footer-brand p {
+    font-family: 'Lora', serif;
+    font-size: 0.88rem; color: var(--slate);
+    line-height: 1.8; margin-top: 1rem;
+    max-width: 280px;
+  }
+
+  .footer-col-title {
+    font-size: 0.65rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--blue-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .footer-col a {
+    color: var(--slate); text-decoration: none;
+    font-size: 0.85rem; font-weight: 400;
+    transition: color 0.3s;
+  }
+
+  .footer-col a:hover { color: var(--white); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .footer-bottom p { font-size: 0.72rem; color: rgba(148,163,184,0.4); }
+
+  /* ══ SCROLL ANIMATIONS ══ */
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 1024px) {
+    nav, nav.solid { padding: 1.4rem 2.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 8rem 2.5rem 5rem; gap: 3rem; }
+    .hero-right { grid-template-columns: 1fr 1fr; }
+    .section { padding: 5rem 2.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .why-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 240px); }
+    .proj-card:first-child { grid-row: auto; grid-column: 1 / 3; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .f-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    footer { padding: 3rem 2.5rem 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.8rem; text-align: center; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="logo">
+    <div class="logo-main">EGC <span>BYGG</span></div>
+    <div class="logo-sub">Bygg &amp; Underhåll AB</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#tjanster">Tjänster</a></li>
+    <li><a href="#omoss">Om oss</a></li>
+    <li><a href="#projekt">Projekt</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+    <li><a href="#kontakt" class="nav-btn">Begär offert</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-left">
+    <div class="hero-badge">Certifierat byggföretag · Sverige</div>
+    <h1 class="hero-title">
+      <span class="line-white">Kvalitet</span>
+      <span class="line-blue">Byggs</span>
+      <span class="line-ghost">— inte köps</span>
+    </h1>
+    <p class="hero-desc">
+      EGC Bygg &amp; Underhåll AB levererar professionella bygg- och underhållstjänster med fokus på precision, hållbarhet och kundnöjdhet. Vi bygger för framtiden.
+    </p>
+    <div class="hero-actions">
+      <a href="#kontakt" class="cta-primary">
+        Begär offert
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#tjanster" class="cta-secondary">
+        Se tjänster
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-stat">
+      <div class="stat-number">20<span>+</span></div>
+      <div class="stat-desc">År av erfarenhet inom bygg och underhåll</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-number">500<span>+</span></div>
+      <div class="stat-desc">Slutförda projekt runt om i Sverige</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-number">99<span>%</span></div>
+      <div class="stat-desc">Nöjda kunder rekommenderar oss vidare</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-number">ROT<span>✓</span></div>
+      <div class="stat-desc">Godkänd ROT-avdrag för privatpersoner</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="section" id="tjanster">
+  <div class="section-header">
+    <div>
+      <div class="eyebrow">Vad vi erbjuder</div>
+      <h2 class="section-title">Våra <em>Tjänster</em></h2>
+    </div>
+    <a href="#kontakt" class="section-link">
+      Alla tjänster
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal">
+      <div class="svc-num">01</div>
+      <span class="svc-icon">🏗️</span>
+      <div class="svc-name">Nybyggnation</div>
+      <p class="svc-desc">Vi uppför nya byggnader från grunden — bostäder, kontorslokaler och industrifastigheter. Varje projekt genomförs med omsorg och enligt gällande byggnormer.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-num">02</div>
+      <span class="svc-icon">🔧</span>
+      <div class="svc-name">Underhåll & Service</div>
+      <p class="svc-desc">Löpande underhåll och serviceuppdrag för fastigheter, bostadsrättsföreningar och företag. Vi håller era byggnader i toppskick året runt.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-num">03</div>
+      <span class="svc-icon">🏠</span>
+      <div class="svc-name">Renovering & Ombyggnad</div>
+      <p class="svc-desc">Totalrenoveringar och ombyggnationer av kök, badrum, källare och hela fastigheter. Modern design med respekt för originalstrukturen.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-num">04</div>
+      <span class="svc-icon">🪟</span>
+      <div class="svc-name">Fönster & Fasad</div>
+      <p class="svc-desc">Byte av fönster, dörrar och fasadrenovering. Vi förbättrar energieffektivitet och ger fastigheten ett nytt, fräscht uttryck.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-num">05</div>
+      <span class="svc-icon">🪵</span>
+      <div class="svc-name">Snickeri & Inredning</div>
+      <p class="svc-desc">Skräddarsydda snickeriarbeten, inbyggnadsförvaring, trappor och snickeridetaljer som lyfter hela interiören till en ny nivå.</p>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-num">06</div>
+      <span class="svc-icon">📋</span>
+      <div class="svc-name">Projektledning</div>
+      <p class="svc-desc">Vi tar helhetsansvaret för ditt projekt — planering, upphandling, koordinering av underentreprenörer och slutleverans i tid och inom budget.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY US -->
+<section class="section why-section" id="omoss">
+  <div class="why-inner">
+    <div class="why-visual">
+      <div class="why-box">
+        <div class="why-corner-tl"></div>
+        🏛️
+        <div class="years-badge">
+          <div class="years-num">20+</div>
+          <div class="years-label">År</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">Varför EGC</div>
+      <h2 class="section-title">Byggda på <em>integritet</em></h2>
+      <div class="why-list">
+        <div class="why-item reveal">
+          <div class="why-icon-wrap">🎯</div>
+          <div>
+            <div class="why-item-title">Precision i varje detalj</div>
+            <div class="why-item-desc">Vi arbetar metodiskt och noggrant, från ritning till sista finish. Inget lämnas åt slumpen.</div>
+          </div>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon-wrap">🤝</div>
+          <div>
+            <div class="why-item-title">Ärlighet & transparens</div>
+            <div class="why-item-desc">Tydliga avtal, inga dolda kostnader. Du vet alltid vad som gäller och vad du betalar för.</div>
+          </div>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon-wrap">⚡</div>
+          <div>
+            <div class="why-item-title">Levererar i tid</div>
+            <div class="why-item-desc">Vi håller tidsplanen och kommunicerar proaktivt om något förändras. Din tid är värdefull.</div>
+          </div>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon-wrap">🌱</div>
+          <div>
+            <div class="why-item-title">Hållbart byggande</div>
+            <div class="why-item-desc">Vi väljer miljövänliga material och metoder när det är möjligt — bra för dig och för framtida generationer.</div>
+          </div>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon-wrap">📜</div>
+          <div>
+            <div class="why-item-title">Licensierade & försäkrade</div>
+            <div class="why-item-desc">Fullständigt licensierade, F-skatt, ROT-godkänd och med heltäckande ansvarsförsäkring.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section class="section" id="projekt">
+  <div class="section-header">
+    <div>
+      <div class="eyebrow">Referensprojekt</div>
+      <h2 class="section-title">Utvalda <em>Projekt</em></h2>
+    </div>
+    <a href="#kontakt" class="section-link">
+      Se alla projekt
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+  <div class="projects-grid">
+    <div class="proj-card reveal">
+      <div class="proj-bg">🏢</div>
+      <div class="proj-overlay"></div>
+      <div class="proj-content">
+        <div class="proj-tag">Kommersiellt · Stockholm</div>
+        <div class="proj-name">Kontorskomplex Kungsholmen</div>
+      </div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-bg">🏡</div>
+      <div class="proj-overlay"></div>
+      <div class="proj-content">
+        <div class="proj-tag">Bostäder · Göteborg</div>
+        <div class="proj-name">Villarenovering Örgryte</div>
+      </div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-bg">🏗️</div>
+      <div class="proj-overlay"></div>
+      <div class="proj-content">
+        <div class="proj-tag">Nybyggnation · Malmö</div>
+        <div class="proj-name">Flerbostadshus Limhamn</div>
+      </div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-bg">🏭</div>
+      <div class="proj-overlay"></div>
+      <div class="proj-content">
+        <div class="proj-tag">Industri · Uppsala</div>
+        <div class="proj-name">Lagerbyggnad & Kontor</div>
+      </div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-bg">🛁</div>
+      <div class="proj-overlay"></div>
+      <div class="proj-content">
+        <div class="proj-tag">Renovering · Västerås</div>
+        <div class="proj-name">Total badrumsrenovering BRF</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="section contact-section" id="kontakt">
+  <div class="contact-inner">
+    <div>
+      <div class="eyebrow">Ta kontakt</div>
+      <h2 class="section-title">Låt oss <em>bygga</em><br>tillsammans</h2>
+      <div class="contact-info-block">
+        <div class="c-item reveal">
+          <div class="c-icon-box">📍</div>
+          <div>
+            <div class="c-label">Kontor</div>
+            <div class="c-value">Industrivägen 14<br>123 45 Stockholm</div>
+          </div>
+        </div>
+        <div class="c-item reveal">
+          <div class="c-icon-box">📞</div>
+          <div>
+            <div class="c-label">Telefon</div>
+            <div class="c-value">+46 8 555 012 34</div>
+          </div>
+        </div>
+        <div class="c-item reveal">
+          <div class="c-icon-box">✉️</div>
+          <div>
+            <div class="c-label">E-post</div>
+            <div class="c-value">info@egcbygg.se</div>
+          </div>
+        </div>
+        <div class="c-item reveal">
+          <div class="c-icon-box">🕐</div>
+          <div>
+            <div class="c-label">Öppettider</div>
+            <div class="c-value">Måndag–Fredag 07:00–17:00<br>Lördag 08:00–13:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">Offertförfrågan</div>
+      <div class="form-title">Berätta om ditt projekt</div>
+      <form class="contact-form" onsubmit="submitForm(event)">
+        <div class="f-row">
+          <div class="f-grp">
+            <label>Förnamn</label>
+            <input type="text" placeholder="Anna">
+          </div>
+          <div class="f-grp">
+            <label>Efternamn</label>
+            <input type="text" placeholder="Eriksson">
+          </div>
+        </div>
+        <div class="f-row">
+          <div class="f-grp">
+            <label>Telefon</label>
+            <input type="tel" placeholder="070 000 00 00">
+          </div>
+          <div class="f-grp">
+            <label>E-post</label>
+            <input type="email" placeholder="anna@example.com">
+          </div>
+        </div>
+        <div class="f-grp">
+          <label>Typ av projekt</label>
+          <select>
+            <option value="">Välj projekttyp...</option>
+            <option>Nybyggnation</option>
+            <option>Renovering & Ombyggnad</option>
+            <option>Underhåll & Service</option>
+            <option>Fönster & Fasad</option>
+            <option>Snickeri & Inredning</option>
+            <option>Projektledning</option>
+            <option>Annat</option>
+          </select>
+        </div>
+        <div class="f-grp">
+          <label>Ungefärlig budget</label>
+          <select>
+            <option value="">Välj budgetintervall...</option>
+            <option>Under 50 000 kr</option>
+            <option>50 000 – 200 000 kr</option>
+            <option>200 000 – 500 000 kr</option>
+            <option>500 000 – 1 000 000 kr</option>
+            <option>Över 1 000 000 kr</option>
+          </select>
+        </div>
+        <div class="f-grp">
+          <label>Projektbeskrivning</label>
+          <textarea rows="5" placeholder="Beskriv ditt projekt, plats, önskad start och andra relevanta detaljer..."></textarea>
+        </div>
+        <button type="submit" class="f-submit">
+          Skicka förfrågan
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">
+        <div class="logo-main">EGC <span>BYGG</span></div>
+        <div class="logo-sub">Bygg &amp; Underhåll AB</div>
+      </div>
+      <p>Vi levererar professionella bygg- och underhållstjänster med fokus på kvalitet, precision och kundnöjdhet. Certifierade, licensierade och ROT-godkända.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Tjänster</div>
+      <ul>
+        <li><a href="#tjanster">Nybyggnation</a></li>
+        <li><a href="#tjanster">Underhåll & Service</a></li>
+        <li><a href="#tjanster">Renovering</a></li>
+        <li><a href="#tjanster">Fönster & Fasad</a></li>
+        <li><a href="#tjanster">Snickeri</a></li>
+        <li><a href="#tjanster">Projektledning</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Företaget</div>
+      <ul>
+        <li><a href="#omoss">Om oss</a></li>
+        <li><a href="#projekt">Referensprojekt</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="#kontakt">Jobba hos oss</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Kontakt</div>
+      <ul>
+        <li><a href="tel:+46855501234">+46 8 555 012 34</a></li>
+        <li><a href="mailto:info@egcbygg.se">info@egcbygg.se</a></li>
+        <li><a href="#">Industrivägen 14</a></li>
+        <li><a href="#">123 45 Stockholm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 EGC Bygg & Underhåll AB · Org.nr 556XXX-XXXX · Alla rättigheter förbehållna</p>
+    <p>F-skatt · ROT-godkänd · Ansvarsförsäkrad</p>
+  </div>
+</footer>
+
+<script>
+  // Sticky nav
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 80);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => {
+          e.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Staggered delays for grids
+  document.querySelectorAll('.svc-card').forEach((el, i) => {
+    el.style.transitionDelay = (i * 80) + 'ms';
+  });
+
+  document.querySelectorAll('.proj-card').forEach((el, i) => {
+    el.style.transitionDelay = (i * 80) + 'ms';
+  });
+
+  // Form submit
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.f-submit');
+    const original = btn.innerHTML;
+    btn.innerHTML = '✓ Förfrågan skickad!';
+    btn.style.background = '#16a34a';
+    btn.style.boxShadow = '0 10px 30px rgba(22,163,74,0.3)';
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+      btn.style.boxShadow = '';
+      e.target.reset();
+    }, 3500);
+  }
+</script>
+</body>
+</html>
